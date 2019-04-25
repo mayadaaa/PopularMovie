@@ -42,7 +42,7 @@ public class DetailsActivity extends AppCompatActivity {
                 .build();
 
         movieAPI = retrofit.create(APIinterface.class);
-        String poster = getIntent().getStringExtra("poster");
+      //  String poster = getIntent().getStringExtra("poster");
         String title = getIntent().getStringExtra("title");
         String rate = getIntent().getStringExtra("rate");
         String release = getIntent().getStringExtra("release");
