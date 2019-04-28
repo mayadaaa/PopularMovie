@@ -19,11 +19,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class DetailsActivity extends AppCompatActivity {
 
 
-    @BindView(R.id.Image_poster) ImageView imageView;
-    @BindView (R.id.Rate) TextView ratee;
-    @BindView (R.id.Header_title) TextView titlee;
-    @BindView (R.id.Release_date) TextView  date;
-    @BindView   (R.id.Description) TextView description;
+    @BindView(R.id.Image_poster)
+    ImageView imageView;
+    @BindView(R.id.Rate)
+    TextView rate;
+    @BindView(R.id.Header_title)
+    TextView title;
+    @BindView(R.id.Release_date)
+    TextView date;
+    @BindView(R.id.Description)
+    TextView description;
     private List<Movie> Model;
     APIinterface movieAPI;
 
@@ -33,7 +38,7 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.details_main);
 
-      ButterKnife.bind(this);
+        ButterKnife.bind(this);
 
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -41,19 +46,14 @@ public class DetailsActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        movieAPI = retrofit.create(APIinterface.class);
-        String title = getIntent().getStringExtra("title");
-        String rate = getIntent().getStringExtra("rate");
-        String release = getIntent().getStringExtra("release");
-        String overview = getIntent().getStringExtra("overview");
 
-        titlee.setText(title);
-        description.setText(overview);
-        ratee.setText(rate);
-        date.setText(release);
+        title.setText(getIntent().getExtras().getString("title"));
+        description.setText(getIntent().getExtras().getString("overview"));
+        date.setText(getIntent().getExtras().getString("release_date"));
+        rate.setText(String.valueOf(getIntent().getExtras().getDouble("vote_average")) + "/10");
 
         Picasso.with(DetailsActivity.this)
-                .load("http://image.tmdb.org/t/p/w185/" +getIntent().getExtras().getString("poster_path"))
+                .load("http://image.tmdb.org/t/p/w185/" + getIntent().getExtras().getString("poster_path"))
                 .into(imageView);
     }
 }
