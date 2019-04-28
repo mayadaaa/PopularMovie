@@ -9,10 +9,10 @@ public interface APIinterface {
 
     String API_URL = "http://api.themoviedb.org";
 
-    @GET("/3/movie/popular?api_key=" + "your API key")
+    @GET("/3/movie/popular?api_key=" + "YOUR API")
     Call<MovieDetails> getApiPopular();
 
-    @GET("/3/movie/top_rated?api_key=" + "your API key")
+    @GET("/3/movie/top_rated?api_key=" + "YOUR API")
     Call<MovieDetails> getApiTopRated();
 
 }

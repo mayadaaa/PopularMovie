@@ -19,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class DetailsActivity extends AppCompatActivity {
 
 
-    @BindView(R.id.image_poster) ImageView imageView;
+    @BindView(R.id.Image_poster) ImageView imageView;
     @BindView (R.id.Rate) TextView ratee;
     @BindView (R.id.Header_title) TextView titlee;
     @BindView (R.id.Release_date) TextView  date;
@@ -42,7 +42,6 @@ public class DetailsActivity extends AppCompatActivity {
                 .build();
 
         movieAPI = retrofit.create(APIinterface.class);
-      //  String poster = getIntent().getStringExtra("poster");
         String title = getIntent().getStringExtra("title");
         String rate = getIntent().getStringExtra("rate");
         String release = getIntent().getStringExtra("release");

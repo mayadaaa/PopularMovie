@@ -1,5 +1,7 @@
 package com.example.popularmovie;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -36,8 +38,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         ButterKnife.bind(this);
-        recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),3);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setHasFixedSize(true);
         openCall();
     }
 
@@ -78,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<MovieDetails> call, Response<MovieDetails> response) {
 
                 PopularList = response.body().getResults();
+
             }
 
             @Override
