@@ -1,12 +1,13 @@
 package com.example.popularmovie;
 
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+
 public class MovieDetails {
+
     @SerializedName("page")
     @Expose
     private Integer page;

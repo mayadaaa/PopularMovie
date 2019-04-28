@@ -1,109 +1,168 @@
 package com.example.popularmovie;
 
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-import android.net.Uri;
-import android.os.Parcel;
-import android.os.Parcelable;
+import java.util.List;
 
+public class Movie {
 
-public class Movie implements Parcelable {
+    @SerializedName("vote_count")
+    @Expose
+    private Integer voteCount;
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("video")
+    @Expose
+    private Boolean video;
+    @SerializedName("vote_average")
+    @Expose
+    private Double voteAverage;
+    @SerializedName("title")
+    @Expose
+    private String title;
+    @SerializedName("popularity")
+    @Expose
+    private Double popularity;
+    @SerializedName("poster_path")
+    @Expose
+    private String posterPath;
+    @SerializedName("original_language")
+    @Expose
+    private String originalLanguage;
+    @SerializedName("original_title")
+    @Expose
+    private String originalTitle;
+    @SerializedName("genre_ids")
+    @Expose
+    private List<Integer> genreIds = null;
+    @SerializedName("backdrop_path")
+    @Expose
+    private String backdropPath;
 
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-        public Movie createFromParcel(Parcel in) {
-            return new Movie(in);
-        }
+    @SerializedName("overview")
+    @Expose
+    private String overview;
 
-        public Movie[] newArray(int size) {
-            return new Movie[size];
-        }
-    };
-    private String mId;
-    private String mTitle;
-    private String mReleaseDate;
-    private String mVoteAverage;
-    private String mOverview;
-    private Uri mPosterUri;
+    @SerializedName("adult")
+    @Expose
+    private Boolean adult;
+    @SerializedName("release_date")
+    @Expose
+    private String releaseDate;
 
-    public  Movie(String id, String title, String releaseDate, String voteAverage, String
-            overview, Uri posterUri) {
-        mId = id;
-        mTitle = title;
-        mReleaseDate = releaseDate;
-        mVoteAverage = voteAverage;
-        mOverview = overview;
-        mPosterUri = posterUri;
+    public Integer getVoteCount() {
+        return voteCount;
     }
 
-    public Movie(Parcel in) {
-        mId = in.readString();
-        mTitle = in.readString();
-        mReleaseDate = in.readString();
-        mVoteAverage = in.readString();
-        mOverview = in.readString();
-        mPosterUri = (Uri) in.readValue(Movie.class.getClassLoader());
+    public void setVoteCount(Integer voteCount) {
+        this.voteCount = voteCount;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Boolean getVideo() {
+        return video;
+    }
+
+    public void setVideo(Boolean video) {
+        this.video = video;
+    }
+
+    public Double getVoteAverage() {
+        return voteAverage;
+    }
+
+    public void setVoteAverage(Double voteAverage) {
+        this.voteAverage = voteAverage;
     }
 
     public String getTitle() {
-        return mTitle;
+        return title;
     }
 
     public void setTitle(String title) {
-        mTitle = title;
+        this.title = title;
     }
 
-    public String getId() {
-        return mId;
+    public Double getPopularity() {
+        return popularity;
     }
 
-    public void setId(String id) {
-        mId = id;
+    public void setPopularity(Double popularity) {
+        this.popularity = popularity;
     }
 
-    public String getReleaseDate() {
-        return mReleaseDate;
+    public String getPosterPath() {
+        return posterPath;
     }
 
-    public void setReleaseDate(String releaseDate) {
-        mReleaseDate = releaseDate;
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
     }
 
-    public String getVoteAverage() {
-        return mVoteAverage;
+    public String getOriginalLanguage() {
+        return originalLanguage;
     }
 
-    public void setVoteAverage(String voteAverage) {
-        mVoteAverage = voteAverage;
+    public void setOriginalLanguage(String originalLanguage) {
+        this.originalLanguage = originalLanguage;
+    }
+
+    public String getOriginalTitle() {
+        return originalTitle;
+    }
+
+    public void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
+    }
+
+    public List<Integer> getGenreIds() {
+        return genreIds;
+    }
+
+    public void setGenreIds(List<Integer> genreIds) {
+        this.genreIds = genreIds;
+    }
+
+    public String getBackdropPath() {
+        return backdropPath;
+    }
+
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
+    }
+
+    public Boolean getAdult() {
+        return adult;
+    }
+
+    public void setAdult(Boolean adult) {
+        this.adult = adult;
     }
 
     public String getOverview() {
-        return mOverview;
+        return overview;
     }
 
     public void setOverview(String overview) {
-        mOverview = overview;
+        this.overview = overview;
     }
 
-    public Uri getPosterUri() {
-        return mPosterUri;
+    public String getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setPosterUri(Uri posterUri) {
-        mPosterUri = posterUri;
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int i) {
-        dest.writeString(mId);
-        dest.writeString(mTitle);
-        dest.writeString(mReleaseDate);
-        dest.writeString(mVoteAverage);
-        dest.writeString(mOverview);
-        dest.writeValue(mPosterUri);
-    }
 }

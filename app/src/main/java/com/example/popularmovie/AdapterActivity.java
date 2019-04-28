@@ -33,7 +33,7 @@ public class AdapterActivity extends RecyclerView.Adapter<AdapterActivity.MyView
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         Picasso.with(context)
-                .load("http://image.tmdb.org/t/p/w185/" + mainModels.get(position). getPosterUri())
+                .load("http://image.tmdb.org/t/p/w185/" + mainModels.get(position). getPosterPath())
                 .into(holder.imageView);
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
@@ -43,7 +43,7 @@ public class AdapterActivity extends RecyclerView.Adapter<AdapterActivity.MyView
                 Intent intent = new Intent(context, DetailsActivity.class);
 
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.putExtra("poster_path", mainModels.get(position). getPosterUri());
+                intent.putExtra("poster_path", mainModels.get(position).getPosterPath());
                 intent.putExtra("title", mainModels.get(position).getTitle());
                 intent.putExtra("overview", mainModels.get(position).getOverview());
                 intent.putExtra("release_date", mainModels.get(position).getReleaseDate());
@@ -81,7 +81,7 @@ public class AdapterActivity extends RecyclerView.Adapter<AdapterActivity.MyView
             intent.putExtra("overview", mainModels.get(position).getOverview());
             intent.putExtra("release_date", mainModels.get(position).getReleaseDate());
             intent.putExtra("vote_average", mainModels.get(position).getVoteAverage());
-            intent.putExtra("poster_path", mainModels.get(position). getPosterUri());
+            intent.putExtra("poster_path", mainModels.get(position). getPosterPath());
             context.startActivity(intent);
 
         }
