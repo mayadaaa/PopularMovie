@@ -2,7 +2,7 @@ package com.example.popularmovie;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +48,7 @@ public class AdapterActivity extends RecyclerView.Adapter<AdapterActivity.MyView
                 intent.putExtra("overview", mainModels.get(position).getOverview());
                 intent.putExtra("release_date", mainModels.get(position).getReleaseDate());
                 intent.putExtra("vote_average", mainModels.get(position).getVoteAverage());
+                intent.putExtra("review_id", mainModels.get(position).getId());
 
                 context.startActivity(intent);
             }

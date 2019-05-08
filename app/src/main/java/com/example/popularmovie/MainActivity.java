@@ -1,11 +1,9 @@
 package com.example.popularmovie;
 
-import android.app.ActivityManager;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -14,8 +12,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,7 +27,9 @@ public class MainActivity extends AppCompatActivity {
     APIinterface moviesAPI;
     List<Movie> PopularList = new ArrayList<>();
     List<Movie> TopRateList = new ArrayList<>();
-  @BindView (R.id.recyclerView) RecyclerView recyclerView;
+    List<Movie> Favourites = new ArrayList<>();
+
+    RecyclerView recyclerView;
 
     private AdapterActivity adapter;
 
@@ -38,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+         recyclerView =findViewById(R.id.recyclerView);
 
-        ButterKnife.bind(this);
 
         recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
         openCall();
@@ -63,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.TopRate) {
             Select = 2;
             recyclerView.setAdapter(new AdapterActivity(TopRateList, MainActivity.this));
+        }
+        if (id == R.id.Favourits) {
+            Select = 3;
+            recyclerView.setAdapter(new AdapterActivity(Favourites, MainActivity.this));
         }
         return super.onOptionsItemSelected(item);
     }
@@ -112,6 +115,24 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+/* movie favourits
+        final Call<MovieDetails> FavCall = moviesAPI.getApiFavourits();
+
+        FavCall.enqueue(new Callback<MovieDetails>() {
+
+            @Override
+            public void onResponse(Call<MovieDetails> call, Response<MovieDetails> response) {
+
+                FavCall = response.body().getResults();
+
+            }
+
+            @Override
+            public void onFailure(Call<MovieDetails> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Please Wait Until Connection available", Toast.LENGTH_SHORT).show();
+            }
+
+        });*/
 
     }
 
