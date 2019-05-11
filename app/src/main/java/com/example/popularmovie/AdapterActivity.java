@@ -48,7 +48,7 @@ public class AdapterActivity extends RecyclerView.Adapter<AdapterActivity.MyView
                 intent.putExtra("overview", mainModels.get(position).getOverview());
                 intent.putExtra("release_date", mainModels.get(position).getReleaseDate());
                 intent.putExtra("vote_average", mainModels.get(position).getVoteAverage());
-                intent.putExtra("review_id", mainModels.get(position).getId());
+                intent.putExtra("id", mainModels.get(position).getId());
 
                 context.startActivity(intent);
             }
@@ -75,7 +75,7 @@ public class AdapterActivity extends RecyclerView.Adapter<AdapterActivity.MyView
         @Override
         public void onClick(View view) {
 
-           int position = getAdapterPosition();
+            int position = getAdapterPosition();
             Intent intent = new Intent(context, DetailsActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.putExtra("title", mainModels.get(position).getTitle());

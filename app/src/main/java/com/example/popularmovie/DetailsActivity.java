@@ -1,5 +1,6 @@
 package com.example.popularmovie;
 
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
@@ -7,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,11 +22,12 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class DetailsActivity extends AppCompatActivity {
+
+    private static final String TAG = MovieDetails.class.getSimpleName();
+    private Movie movieItem;
 
     private List<Review> reviewList = new ArrayList<>();
     private List<Trailer> movieVideoList = new ArrayList<>();
@@ -36,8 +40,11 @@ public class DetailsActivity extends AppCompatActivity {
     RecyclerView reviewRecycleView;
     RecyclerView mTrailerRecyclerView;
     APIinterface moviesAPI;
-    int id;
+    int id = 299534;
 
+    private Button favouriteButton;
+    private FavDatabase database;
+    private Boolean isFav = false;
 
 
     @SuppressLint("SetTextI18n")
@@ -53,6 +60,7 @@ public class DetailsActivity extends AppCompatActivity {
         TextView description = findViewById(R.id.Description);
         reviewRecycleView = findViewById(R.id.review_recycler);
         mTrailerRecyclerView = findViewById(R.id.trailer_recycler);
+        favouriteButton = findViewById(R.id.favButton);
 
 
         title.setText(getIntent().getExtras().getString("title"));
@@ -64,38 +72,38 @@ public class DetailsActivity extends AppCompatActivity {
                 .load("http://image.tmdb.org/t/p/w185/" + getIntent().getExtras().getString("poster_path"))
                 .into(imageView);
 
-        reviewCall();
-        trailerCall();
+        gettrailers();
+        getreviews();
 
 
-    }
 
-    private void reviewCall() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(APIinterface.API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        moviesAPI = retrofit.create(APIinterface.class);
 
-        Call<review_response> reviewCall = moviesAPI.getReviews(id);
 
-        reviewCall.enqueue(new Callback<review_response>() {
-
+        favouriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(Call<review_response> call, Response<review_response> response) {
+            public void onClick(View v) {
+                final FavouritMovie favouritMovie = new FavouritMovie(
+                        movieItem.getId(),
+                        movieItem.getTitle(),
+                        movieItem.getReleaseDate(),
+                        movieItem.getVoteAverage(),
+                        movieItem.getPopularity(),
+                        movieItem.getOverview(),
+                        movieItem.getPosterPath(),
+                        movieItem.getBackdropPath()
 
-                List<Review> review = response.body().getResults();
-                //   Toast.makeText(DetailsActivity.this, "size" + trailers.size(), Toast.LENGTH_SHORT).show();
-                reviewLayoutManager = new LinearLayoutManager(getApplicationContext());
-                reviewRecycleView.setLayoutManager(reviewLayoutManager);
-                rAdapter = new reviewAdapter(review, getApplicationContext());
-                reviewRecycleView.setAdapter(rAdapter);
-            }
+                );
 
-            @Override
-            public void onFailure(Call<review_response> call, Throwable t) {
-                Toast.makeText(DetailsActivity.this, "Please Wait Until Connection available", Toast.LENGTH_SHORT).show();
-            }
+                if (isFav) {
+                        // delete item
+                        database.Dao().delete(favouritMovie);
+                    } else {
+                        // insert item
+                        database.Dao().insert(favouritMovie);
+                    }
+                }
+
+
 
         });
     }
@@ -103,39 +111,54 @@ public class DetailsActivity extends AppCompatActivity {
 
 
 
-   private void trailerCall() {
-       Retrofit retrofit = new Retrofit.Builder()
-               .baseUrl(APIinterface.API_URL)
-               .addConverterFactory(GsonConverterFactory.create())
-               .build();
-       moviesAPI = retrofit.create(APIinterface.class);
+    public void gettrailers() {
+        APIinterface service = RetrofitClient.getRetrofitInstance().create(APIinterface.class);
+        Call<trails_resonse> call = service.getVideos(id);
+        call.enqueue(new Callback<trails_resonse>() {
+            @Override
+            public void onResponse(Call<trails_resonse> call,
+                                   Response<trails_resonse> response) {
+                //   Toast.makeText(DetailsActivity.this, "size"+response.body().getResults().size(), Toast.LENGTH_SHORT).show();
+                List<Trailer> trailers = response.body().getResults();
+
+                mTrailerLayoutManager = new LinearLayoutManager(getApplicationContext());
+                mTrailerRecyclerView.setLayoutManager(mTrailerLayoutManager);
+                adapter = new trailerAdapter(trailers, getApplicationContext());
+                mTrailerRecyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<trails_resonse> call, Throwable t) {
+                Toast.makeText(DetailsActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 
-       Call<trails_resonse> TrailerCall = moviesAPI.getVideos(id);
+    public void getreviews() {
+        APIinterface service = RetrofitClient.getRetrofitInstance().create(APIinterface.class);
+        //   Log.e("idididi", "id===  "+id);
+        Call<review_response> call = service.getReviews(id);
+        call.enqueue(new Callback<review_response>() {
+            @Override
+            public void onResponse(Call<review_response> call,
+                                   Response<review_response> response) {
+                //   Toast.makeText(DetailsActivity.this, "size"+response.body(), Toast.LENGTH_SHORT).show();
+                List<Review> review = response.body().getReviews();
+                reviewLayoutManager = new LinearLayoutManager(getApplicationContext());
+                reviewRecycleView.setLayoutManager(reviewLayoutManager);
+                rAdapter = new reviewAdapter(review, getApplicationContext());
+                reviewRecycleView.setAdapter(rAdapter);
 
-       TrailerCall.enqueue(new Callback<trails_resonse>() {
+            }
 
-           @Override
-           public void onResponse(Call<trails_resonse> call, Response<trails_resonse> response) {
+            @Override
+            public void onFailure(Call<review_response> call, Throwable t) {
+                Toast.makeText(DetailsActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
-               List<Trailer> trailers = response.body().getResults();
-               //  Toast.makeText(DetailsActivity.this, "size" + trailers.size(), Toast.LENGTH_SHORT).show();
-
-               mTrailerLayoutManager = new LinearLayoutManager(getApplicationContext());
-               mTrailerRecyclerView.setLayoutManager(mTrailerLayoutManager);
-               adapter = new trailerAdapter(trailers, getApplicationContext());
-               mTrailerRecyclerView.setAdapter(adapter);
-           }
-
-           @Override
-           public void onFailure(Call<trails_resonse> call, Throwable t) {
-               Toast.makeText(DetailsActivity.this, "Please Wait Until Connection available", Toast.LENGTH_SHORT).show();
-           }
-
-       });
-
-
-   }
 
 }
 

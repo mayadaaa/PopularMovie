@@ -11,7 +11,7 @@ public class Movie {
     @SerializedName("vote_count")
     @Expose
     private Integer voteCount;
-    @SerializedName("review_id")
+    @SerializedName("id")
     @Expose
     private Integer id;
     @SerializedName("video")

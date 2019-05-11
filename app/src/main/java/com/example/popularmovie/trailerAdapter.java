@@ -1,6 +1,7 @@
 package com.example.popularmovie;
 
 
+
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -30,13 +31,13 @@ public class trailerAdapter extends RecyclerView.Adapter<trailerAdapter.MyViewHo
 
     @NonNull
     @Override
-    public trailerAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.trailer_item, parent, false);
-        return new trailerAdapter.MyViewHolder(v, context, movieVideoList);
+        return new MyViewHolder(v, context, movieVideoList);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull trailerAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.click.setText(movieVideoList.get(position).getName());
 
     }
@@ -58,7 +59,7 @@ public class trailerAdapter extends RecyclerView.Adapter<trailerAdapter.MyViewHo
             this.imageView=itemView.findViewById(R.id.trailer_image);
             this.context = con;
             this.click = itemView.findViewById(R.id.clickable_text);
-           this. movieVideoList=movieVideoList;
+            this. movieVideoList=movieVideoList;
             itemView.setOnClickListener(this);
         }
 
@@ -73,13 +74,13 @@ public class trailerAdapter extends RecyclerView.Adapter<trailerAdapter.MyViewHo
             intent.putExtra("VIDEO_ID", videoId);
             context.startActivity(intent);
 
-         //   Toast.makeText(v.getContext(), "You clicked " + clickedDataItem.getName(), Toast.LENGTH_SHORT).show();
+            //   Toast.makeText(v.getContext(), "You clicked " + clickedDataItem.getName(), Toast.LENGTH_SHORT).show();
 
 
         }
 
     }
-    }
+}
 
 
 

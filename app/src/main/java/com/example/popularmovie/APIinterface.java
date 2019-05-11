@@ -17,10 +17,10 @@ public interface APIinterface {
     Call<MovieDetails> getApiTopRated();
 
     @GET("/3/movie/{id}/videos?api_key=" + "e452fe926d2f858deb33e033f9ee6873")
-    Call<trails_resonse> getVideos(@Path("id") int id  );
+    Call<trails_resonse> getVideos(@Path("id") int id);
 
-    @GET("/3/review/{review_id}?api_key=" + "e452fe926d2f858deb33e033f9ee6873")
-    Call<review_response> getReviews(@Path("review_id") int id  );
+    @GET("/3/movie/{review_id}/reviews?api_key=" + "e452fe926d2f858deb33e033f9ee6873")
+    Call<review_response> getReviews(@Path("review_id") int id);
 
 
 

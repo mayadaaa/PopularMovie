@@ -15,9 +15,9 @@
             android:id="@+id/Image_poster"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
             android:adjustViewBounds="true"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -25,16 +25,21 @@
             android:id="@+id/Header_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/Image_poster" />
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="15dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@id/Image_poster"
+            app:layout_constraintRight_toRightOf="parent" />
 
 
         <TextView
             android:id="@+id/Rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="14dp"
+            android:layout_marginRight="15dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/Header_title" />
 
@@ -43,38 +48,50 @@
             android:id="@+id/Release_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginRight="15dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/Rate" />
 
-
+        <Button
+            android:id="@+id/favButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:background="@color/colorPrimaryDark"
+            android:text="Mark as favorite"
+            android:textColor="#ffffff"
+            android:onClick="onClickFav"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/Release_date"
+            />
 
         <TextView
             android:id="@+id/Description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="15dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/Release_date" />
+            app:layout_constraintTop_toBottomOf="@id/favButton" />
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/review_recycler"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="14dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/Description">
-        </androidx.recyclerview.widget.RecyclerView>
+            app:layout_constraintTop_toBottomOf="@id/Description"/>
 
-<androidx.recyclerview.widget.RecyclerView
-    android:padding="40dp"
-    android:id="@+id/trailer_recycler"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintRight_toRightOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/review_recycler">
-        </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/trailer_recycler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/review_recycler"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

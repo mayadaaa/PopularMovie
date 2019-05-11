@@ -1,23 +1,18 @@
 package com.example.popularmovie;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class review_response {
-    List<Review> results;
-    int id;
+    @SerializedName("results")
+    private List<Review> Reviews;
 
-    public review_response(List<Review> results, int id) {
-        this.results = results;
-        this.id = id;
+    public List<Review> getReviews() {
+        return Reviews;
     }
 
-    public List<Review> getResults() {
-        return results;
-    }
-
-    public int getId() {
-        return id;
+    public void setReviews(List<Review> Reviews) {
+        this.Reviews = Reviews;
     }
 }
-
-

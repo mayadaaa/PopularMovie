@@ -1,5 +1,6 @@
 package com.example.popularmovie;
 
+
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-         recyclerView =findViewById(R.id.recyclerView);
+        recyclerView =findViewById(R.id.recyclerView);
 
 
         recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-      getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -115,24 +116,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-/* movie favourits
-        final Call<MovieDetails> FavCall = moviesAPI.getApiFavourits();
 
-        FavCall.enqueue(new Callback<MovieDetails>() {
 
-            @Override
-            public void onResponse(Call<MovieDetails> call, Response<MovieDetails> response) {
-
-                FavCall = response.body().getResults();
-
-            }
-
-            @Override
-            public void onFailure(Call<MovieDetails> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Please Wait Until Connection available", Toast.LENGTH_SHORT).show();
-            }
-
-        });*/
 
     }
 
