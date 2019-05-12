@@ -75,17 +75,16 @@ public class DetailsActivity extends AppCompatActivity {
 
         movieItem = (Movie) getIntent().getSerializableExtra("Movie");
         if (movieItem == null)
-            Log.e("null", "Null");
+            Log.e("bakro", "Nullll");
         Picasso.with(DetailsActivity.this)
                 .load("http://image.tmdb.org/t/p/w185/" + getIntent().getExtras().getString("poster_path"))
                 .into(imageView);
 
         gettrailers();
         getreviews();
-
         database = new DatabaseClient(this);
-        DetailsActivity.GetFav gt = new DetailsActivity.GetFav(getApplicationContext(), movieItem.getId());
-        gt.execute();
+     //   DetailsActivity.GetFav gt = new DetailsActivity.GetFav(getApplicationContext(), movieItem.getId());
+       // gt.execute();
 
         favouriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,6 +126,7 @@ public class DetailsActivity extends AppCompatActivity {
         });
 
     }
+
 
     public void gettrailers() {
         APIinterface service = RetrofitClient.getRetrofitInstance().create(APIinterface.class);
@@ -209,46 +209,47 @@ public class DetailsActivity extends AppCompatActivity {
         }
     }
 
-    class SaveTask extends AsyncTask<Void, Void, Void> {
-        FavouritMovie favouritMovie;
-        Context context;
-        String operationType;
 
-        SaveTask(FavouritMovie favouritMovie, Context context, String operationType) {
-            this.favouritMovie = favouritMovie;
-            this.context = context;
-            this.operationType = operationType;
-        }
+        class SaveTask extends AsyncTask<Void, Void, Void> {
+            FavouritMovie favouritMovie;
+            Context context;
+            String operationType;
 
-        @Override
-        protected Void doInBackground(Void... voids) {
-
-            if (operationType == DetailsActivity.ADD_Opeartion) {
-                //adding to database
-                DatabaseClient.getInstance(this.context).getAppDatabase()
-                        .FavDAO()
-                        .insert(this.favouritMovie);
-
-            } else {
-                DatabaseClient.getInstance(this.context).getAppDatabase()
-                        .FavDAO()
-                        .delete(this.favouritMovie);
-
+            SaveTask(FavouritMovie favouritMovie, Context context, String operationType) {
+                this.favouritMovie = favouritMovie;
+                this.context = context;
+                this.operationType = operationType;
             }
 
-            return null;
+            @Override
+            protected Void doInBackground(Void... voids) {
+
+                if (operationType == DetailsActivity.ADD_Opeartion) {
+                    //adding to database
+                    DatabaseClient.getInstance(this.context).getAppDatabase()
+                            .FavDAO()
+                            .insert(this.favouritMovie);
+
+                } else {
+                    DatabaseClient.getInstance(this.context).getAppDatabase()
+                            .FavDAO()
+                            .delete(this.favouritMovie);
+
+                }
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                Toast.makeText(context, operationType, Toast.LENGTH_LONG).show();
+
+            }
         }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            Toast.makeText(context, operationType, Toast.LENGTH_LONG).show();
-
-        }
-
-
     }
-}
+
+
 
 
 
