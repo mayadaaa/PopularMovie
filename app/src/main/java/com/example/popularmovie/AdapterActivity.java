@@ -49,7 +49,6 @@ public class AdapterActivity extends RecyclerView.Adapter<AdapterActivity.MyView
                 intent.putExtra("release_date", mainModels.get(position).getReleaseDate());
                 intent.putExtra("vote_average", mainModels.get(position).getVoteAverage());
                 intent.putExtra("id", mainModels.get(position).getId());
-
                 context.startActivity(intent);
             }
         });

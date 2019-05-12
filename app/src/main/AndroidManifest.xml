@@ -23,5 +23,4 @@
             android:name=".DetailsActivity"
             android:label="Details"/>
     </application>
-
 </manifest>
