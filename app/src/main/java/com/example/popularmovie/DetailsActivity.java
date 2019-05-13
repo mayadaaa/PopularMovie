@@ -44,7 +44,7 @@ public class DetailsActivity extends AppCompatActivity {
     RecyclerView reviewRecycleView;
     RecyclerView mTrailerRecyclerView;
     APIinterface moviesAPI;
-    int id = 299534;
+    int id ;
 
     public Button favouriteButton;
     private DatabaseClient database;
@@ -179,7 +179,7 @@ public class DetailsActivity extends AppCompatActivity {
     class GetFav extends AsyncTask<Void, Void, FavouritMovie> {
 
         Context context;
-        int id;
+      int id;
 
         GetFav(Context context, int id) {
             this.context = context;
