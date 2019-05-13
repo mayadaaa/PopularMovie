@@ -1,5 +1,10 @@
-package com.example.popularmovie;
+package com.example.popularmovie.network;
 
+
+
+import com.example.popularmovie.models.MovieDetails;
+import com.example.popularmovie.models.review_response;
+import com.example.popularmovie.models.trails_resonse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

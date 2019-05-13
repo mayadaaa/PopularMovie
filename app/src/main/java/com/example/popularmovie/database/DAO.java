@@ -1,4 +1,7 @@
-package com.example.popularmovie;
+package com.example.popularmovie.database;
+
+
+import com.example.popularmovie.models.FavouritMovie;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -26,7 +29,4 @@ public interface DAO {
     @Query("SELECT * FROM FavMovies WHERE id = :id")
     FavouritMovie loadMovieById(int id);
 }
-
-
-
 

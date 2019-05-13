@@ -1,4 +1,4 @@
-package com.example.popularmovie;
+package com.example.popularmovie.network;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -9,7 +9,7 @@ public class RetrofitClient {
 
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {
-            retrofit = new retrofit2.Retrofit.Builder()
+            retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
@@ -17,6 +17,5 @@ public class RetrofitClient {
         return retrofit;
     }
 }
-
 
 

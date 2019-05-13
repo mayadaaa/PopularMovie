@@ -15,6 +15,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.popularmovie.adapters.reviewAdapter;
+import com.example.popularmovie.adapters.trailerAdapter;
+import com.example.popularmovie.database.DatabaseClient;
+import com.example.popularmovie.models.FavouritMovie;
+import com.example.popularmovie.models.Movie;
+import com.example.popularmovie.models.MovieDetails;
+import com.example.popularmovie.models.Review;
+import com.example.popularmovie.models.Trailer;
+import com.example.popularmovie.models.review_response;
+import com.example.popularmovie.models.trails_resonse;
+import com.example.popularmovie.network.APIinterface;
+import com.example.popularmovie.network.RetrofitClient;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -74,17 +86,16 @@ public class DetailsActivity extends AppCompatActivity {
         id = getIntent().getExtras().getInt("id");
 
         movieItem = (Movie) getIntent().getSerializableExtra("Movie");
-        if (movieItem == null)
-            Log.e("bakro", "Nullll");
+
         Picasso.with(DetailsActivity.this)
-                .load("http://image.tmdb.org/t/p/w185/" + getIntent().getExtras().getString("poster_path"))
+                .load("https://image.tmdb.org/t/p/w185/" + getIntent().getExtras().getString("poster_path"))
                 .into(imageView);
 
         gettrailers();
         getreviews();
         database = new DatabaseClient(this);
-     //   DetailsActivity.GetFav gt = new DetailsActivity.GetFav(getApplicationContext(), movieItem.getId());
-       // gt.execute();
+       DetailsActivity.GetFav gt = new DetailsActivity.GetFav(getApplicationContext(), movieItem.getId());
+       gt.execute();
 
         favouriteButton.setOnClickListener(new View.OnClickListener() {
             @Override

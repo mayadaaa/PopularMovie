@@ -12,6 +12,11 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 
+import com.example.popularmovie.adapters.AdapterActivity;
+import com.example.popularmovie.models.Movie;
+import com.example.popularmovie.models.MovieDetails;
+import com.example.popularmovie.network.APIinterface;
+
 import java.util.ArrayList;
 import java.util.List;
 
