@@ -188,7 +188,6 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     class GetFav extends AsyncTask<Void, Void, FavouritMovie> {
-
         Context context;
       int id;
 
@@ -221,7 +220,7 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
 
-        class SaveTask extends AsyncTask<Void, Void, Void> {
+      static  class SaveTask extends AsyncTask<Void, Void, Void> {
             FavouritMovie favouritMovie;
             Context context;
             String operationType;

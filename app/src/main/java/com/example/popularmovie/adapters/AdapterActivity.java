@@ -8,7 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.example.popularmovie.DetailsActivity;
+import com.example.popularmovie.MainActivity;
 import com.example.popularmovie.R;
+import com.example.popularmovie.models.FavouritMovie;
 import com.example.popularmovie.models.Movie;
 import com.squareup.picasso.Picasso;
 
@@ -17,14 +19,17 @@ import java.util.List;
 
 
 public class AdapterActivity extends RecyclerView.Adapter<AdapterActivity.MyViewHolder> {
-
     private List<Movie> mainModels;
     private Context context;
+
+
 
     public AdapterActivity(List<Movie> mainModels, Context context) {
         this.mainModels = mainModels;
         this.context = context;
     }
+
+
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -60,12 +65,15 @@ public class AdapterActivity extends RecyclerView.Adapter<AdapterActivity.MyView
     @Override
     public int getItemCount() {
         return mainModels.size();
+
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView imageView;
         private Context context;
         private List<Movie> Result;
+
+
 
         public MyViewHolder(View itemView, Context con, List<Movie> Models) {
             super(itemView);

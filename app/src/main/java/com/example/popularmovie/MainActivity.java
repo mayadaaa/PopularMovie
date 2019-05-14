@@ -1,18 +1,27 @@
 package com.example.popularmovie;
 
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 
 import com.example.popularmovie.adapters.AdapterActivity;
+import com.example.popularmovie.database.DAO;
+import com.example.popularmovie.database.DatabaseClient;
+import com.example.popularmovie.database.appdatabase;
+import com.example.popularmovie.models.FavouritMovie;
 import com.example.popularmovie.models.Movie;
 import com.example.popularmovie.models.MovieDetails;
 import com.example.popularmovie.network.APIinterface;
@@ -32,24 +41,65 @@ public class MainActivity extends AppCompatActivity {
 
     int Select;
     APIinterface moviesAPI;
-    List<Movie> PopularList = new ArrayList<>();
-    List<Movie> TopRateList = new ArrayList<>();
-    List<Movie> Favourites = new ArrayList<>();
+    public List<Movie> PopularList = new ArrayList<>();
+    public List<Movie> TopRateList = new ArrayList<>();
+    public List<FavouritMovie> favMovie = new ArrayList<>();
 
-    RecyclerView recyclerView;
-
+    private DatabaseClient database;
     private AdapterActivity adapter;
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private int selectedItem;
+    private DAO dao;
+    Parcelable listState;
+
+    private final String STORED_MOVIES = "stored_movies";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.recyclerView);
+        mLayoutManager = new GridLayoutManager(this, 2);
+        recyclerView.setLayoutManager(mLayoutManager);
+        database = new DatabaseClient(this);
 
-
-        recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+        if(savedInstanceState != null) {
+            if(savedInstanceState.<FavouritMovie>getParcelableArrayList(STORED_MOVIES) != null) {
+                favMovie.clear();
+                favMovie.addAll(savedInstanceState.<FavouritMovie>getParcelableArrayList(STORED_MOVIES));
+            }
+        }
         openCall();
+
+
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(STORED_MOVIES, (ArrayList<? extends Parcelable>) favMovie);
+    }
+
+ /*   @Override
+    protected void onRestoreInstanceState(Bundle outState) {
+
+        outState.pu
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (listState != null) {
+            mLayoutManager.onRestoreInstanceState(listState);
+        }
+    }*/
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -72,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if (id == R.id.Favourits) {
             Select = 3;
-            recyclerView.setAdapter(new AdapterActivity(Favourites, MainActivity.this));
+            loadfav();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -109,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<MovieDetails> call, Response<MovieDetails> response) {
 
+
                 TopRateList = response.body().getResults();
                 Select = 1;
                 adapter = new AdapterActivity(response.body().getResults(), MainActivity.this);
@@ -126,8 +177,38 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("StaticFieldLeak")
 
+    public void loadfav() {
+        recyclerView = findViewById(R.id.recyclerView);
+        mLayoutManager = new GridLayoutManager(this, 2);
+        recyclerView.setLayoutManager(mLayoutManager);
+
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                favMovie = dao.loadAllMovies();
+                return null;
+            }
+
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                adapter.notifyDataSetChanged();
+            }
+
+        }.execute();
+
+
+    }
 }
+
+
+
+
+
+
 
 
 

@@ -1,10 +1,13 @@
 package com.example.popularmovie.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
     @Entity(tableName = "FavMovies")
-    public class FavouritMovie {
+    public class FavouritMovie implements Parcelable {
 
         @PrimaryKey
         private int id;
@@ -26,6 +29,37 @@ import androidx.room.PrimaryKey;
             this.posterPath = posterPath;
             this.backdropPath = backdropPath;
         }
+
+        protected FavouritMovie(Parcel in) {
+            id = in.readInt();
+            title = in.readString();
+            releaseDate = in.readString();
+            if (in.readByte() == 0) {
+                voteAverage = null;
+            } else {
+                voteAverage = in.readDouble();
+            }
+            if (in.readByte() == 0) {
+                popularity = null;
+            } else {
+                popularity = in.readDouble();
+            }
+            overview = in.readString();
+            posterPath = in.readString();
+            backdropPath = in.readString();
+        }
+
+        public static final Creator<FavouritMovie> CREATOR = new Creator<FavouritMovie>() {
+            @Override
+            public FavouritMovie createFromParcel(Parcel in) {
+                return new FavouritMovie(in);
+            }
+
+            @Override
+            public FavouritMovie[] newArray(int size) {
+                return new FavouritMovie[size];
+            }
+        };
 
         public int getId() {
             return id;
@@ -89,6 +123,33 @@ import androidx.room.PrimaryKey;
 
         public void setBackdropPath(String backdropPath) {
             this.backdropPath = backdropPath;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(id);
+            dest.writeString(title);
+            dest.writeString(releaseDate);
+            if (voteAverage == null) {
+                dest.writeByte((byte) 0);
+            } else {
+                dest.writeByte((byte) 1);
+                dest.writeDouble(voteAverage);
+            }
+            if (popularity == null) {
+                dest.writeByte((byte) 0);
+            } else {
+                dest.writeByte((byte) 1);
+                dest.writeDouble(popularity);
+            }
+            dest.writeString(overview);
+            dest.writeString(posterPath);
+            dest.writeString(backdropPath);
         }
     }
 
