@@ -1,26 +1,20 @@
 package com.example.popularmovie;
 
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 
 import com.example.popularmovie.adapters.AdapterActivity;
-import com.example.popularmovie.database.DAO;
-import com.example.popularmovie.database.DatabaseClient;
-import com.example.popularmovie.database.appdatabase;
 import com.example.popularmovie.models.FavouritMovie;
 import com.example.popularmovie.models.Movie;
 import com.example.popularmovie.models.MovieDetails;
@@ -39,23 +33,25 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    int Select;
     APIinterface moviesAPI;
     public List<Movie> PopularList = new ArrayList<>();
     public List<Movie> TopRateList = new ArrayList<>();
-    public List<FavouritMovie> favMovie = new ArrayList<>();
+    public List<FavouritMovie> favouritMovies = new ArrayList<>();
 
-    private DatabaseClient database;
+    //private DatabaseClient database;
     private AdapterActivity adapter;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
-    private int selectedItem;
-    private DAO dao;
-    Parcelable listState;
-
-    private final String STORED_MOVIES = "stored_movies";
 
 
+    private final static String MENU_SELECTED = "selected";
+    private int Select = -1;
+
+    private MenuItem menuItem;
+
+    //  private final String STORED_MOVIES = "stored_movies";
+//THE NEW CODE
+    private FavoritsViewModel favoritsViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,31 +60,51 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         mLayoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(mLayoutManager);
-        database = new DatabaseClient(this);
+        //  database = new DatabaseClient(this);
 
-        if(savedInstanceState != null) {
-            if(savedInstanceState.<FavouritMovie>getParcelableArrayList(STORED_MOVIES) != null) {
-                favMovie.clear();
-                favMovie.addAll(savedInstanceState.<FavouritMovie>getParcelableArrayList(STORED_MOVIES));
-            }
+        //THE NEW CODE
+
+        favoritsViewModel = ViewModelProviders.of(this).get(FavoritsViewModel.class);
+
+
+
+        if (savedInstanceState != null) {
+
+            Select = savedInstanceState.getInt(MENU_SELECTED);
+            //  favMovie.clear();
+            //favMovie.addAll(savedInstanceState.<FavouritMovie>getParcelableArrayList(STORED_MOVIES));
+
         }
+
+
         openCall();
 
 
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(STORED_MOVIES, (ArrayList<? extends Parcelable>) favMovie);
-    }
+  /* public void setData(List<FavouritMovie> favMovie ) {
+        this.favMovie = favMovie;
+        notifyDataSetChanged();
+    }*/
 
- /*   @Override
-    protected void onRestoreInstanceState(Bundle outState) {
 
-        outState.pu
-    }
+  /*  @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putInt(MENU_SELECTED, Select);
 
+        super.onSaveInstanceState(savedInstanceState);
+
+        //outState.putParcelableArrayList(STORED_MOVIES, (ArrayList<? extends Parcelable>) favMovie);
+
+
+    }*/
+
+    /*  @Override
+      protected void onRestoreInstanceState(Bundle savedInstanceState) {
+          Select = savedInstanceState.getInt(MENU_SELECTED);
+      }
+      */
+/*
     @Override
     protected void onResume() {
         super.onResume();
@@ -97,6 +113,33 @@ public class MainActivity extends AppCompatActivity {
             mLayoutManager.onRestoreInstanceState(listState);
         }
     }*/
+/*
+
+  if (mSavedInstanceState != null && selected == mSavedInstanceState.getInt(BUNDLE_PREF)) {
+            if (selected == FAVORITES) {
+                mBinding.moviesList.clearOnScrollListeners();
+            } else {
+                mScrollListener.setState(
+                        mSavedInstanceState.getInt(BUNDLE_PAGE),
+                        mSavedInstanceState.getInt(BUNDLE_COUNT));
+                mBinding.moviesList.addOnScrollListener(mScrollListener);
+            }
+            mGridLayoutManager
+                    .onRestoreInstanceState(mSavedInstanceState.getParcelable(BUNDLE_RECYCLER));
+        } else {
+            if (selected == FAVORITES) {
+                mBinding.moviesList.clearOnScrollListeners();
+            } else {
+                mScrollListener.resetState();
+                mBinding.moviesList.addOnScrollListener(mScrollListener);
+            }
+        }
+    }
+
+
+
+ */
+
 
 
 
@@ -104,6 +147,29 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+
+
+        if (Select == -1) {
+            return true;
+        }
+
+        switch (Select) {
+            case R.id.Pouplar:
+                menuItem = menu.findItem(R.id.Pouplar);
+                menuItem.setChecked(true);
+                break;
+
+            case R.id.TopRate:
+                menuItem = menu.findItem(R.id.TopRate);
+                menuItem.setChecked(true);
+                break;
+
+            case R.id.Favourits:
+                menuItem = menu.findItem(R.id.Favourits);
+                menuItem.setChecked(true);
+                break;
+        }
+
         return true;
     }
 
@@ -112,18 +178,32 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.Pouplar) {
-            Select = 1;
-
+            Select = id;
+            item.setChecked(true);
             recyclerView.setAdapter(new AdapterActivity(PopularList, MainActivity.this));
         }
         if (id == R.id.TopRate) {
-            Select = 2;
+
+            Select = id;
+            item.setChecked(true);
             recyclerView.setAdapter(new AdapterActivity(TopRateList, MainActivity.this));
         }
         if (id == R.id.Favourits) {
-            Select = 3;
-            loadfav();
+            Select = id;
+            item.setChecked(true);
+            favoritsViewModel.loadAllMovies().observe(this, new Observer<List<FavouritMovie>>() {
+                @Override
+                public void onChanged(List<FavouritMovie> favouritMovies) {
+                    adapter.addMoviesList(favouritMovies);
+                }
+
+
+            });
+
         }
+
+
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -177,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @SuppressLint("StaticFieldLeak")
+ /*   @SuppressLint("StaticFieldLeak")
 
     public void loadfav() {
         recyclerView = findViewById(R.id.recyclerView);
@@ -187,7 +267,8 @@ public class MainActivity extends AppCompatActivity {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
-                favMovie = dao.loadAllMovies();
+            //    favMovie = dao.loadAllMovies();
+                //Toast();
                 return null;
             }
 
@@ -201,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
         }.execute();
 
 
-    }
+    }*/
 }
 
 

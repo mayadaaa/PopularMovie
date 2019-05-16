@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,12 +11,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.popularmovie.adapters.reviewAdapter;
 import com.example.popularmovie.adapters.trailerAdapter;
-import com.example.popularmovie.database.DatabaseClient;
+import com.example.popularmovie.database.appdatabase;
 import com.example.popularmovie.models.FavouritMovie;
 import com.example.popularmovie.models.Movie;
 import com.example.popularmovie.models.MovieDetails;
@@ -38,29 +40,32 @@ import retrofit2.Response;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    private static final String TAG = MovieDetails.class.getSimpleName();
+  //  private static final String TAG = MovieDetails.class.getSimpleName();
 
-    public static final String ADD_Opeartion = "add";
-    public static final String Delete_Opeartion = "delete";
+  //  public static final String ADD_Opeartion = "add";
+  //  public static final String Delete_Opeartion = "delete";
 
     private Movie movieItem;
 
     private List<Review> reviewList = new ArrayList<>();
     private List<Trailer> movieVideoList = new ArrayList<>();
     private List<Movie> Model;
-    private Movie movie;
+     //private Movie movie;
     private trailerAdapter adapter;
     private reviewAdapter rAdapter;
     private RecyclerView.LayoutManager mTrailerLayoutManager;
     private RecyclerView.LayoutManager reviewLayoutManager;
-    RecyclerView reviewRecycleView;
-    RecyclerView mTrailerRecyclerView;
-    APIinterface moviesAPI;
-    int id ;
-
+    private RecyclerView reviewRecycleView;
+    private RecyclerView mTrailerRecyclerView;
+    //private APIinterface moviesAPI;
+    private int id;
     public Button favouriteButton;
-    private DatabaseClient database;
+    private appdatabase database;
     static Boolean isFav = false;
+   // private FavouritMovie favouritMovie;
+//THE NEW CODE
+
+    private FavoritsViewModel favoritsViewModel;
 
 
     @SuppressLint("SetTextI18n")
@@ -93,9 +98,16 @@ public class DetailsActivity extends AppCompatActivity {
 
         gettrailers();
         getreviews();
-        database = new DatabaseClient(this);
-       DetailsActivity.GetFav gt = new DetailsActivity.GetFav(getApplicationContext(), movieItem.getId());
-       gt.execute();
+
+      //THE NEW CODE
+     // favoritsViewModel=ViewModelProviders.of(this).get(FavoritsViewModel.class);
+
+        favoritsViewModel = ViewModelProviders.of(this).get(FavoritsViewModel.class);
+
+
+       database = appdatabase.getInstance(this);
+      // DetailsActivity.GetFav gt = new DetailsActivity.GetFav(getApplicationContext(), movieItem.getId());
+       //gt.execute();
 
         favouriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,16 +128,12 @@ public class DetailsActivity extends AppCompatActivity {
                 if (isFav) {
 
                     // delete item
-                    SaveTask st = new SaveTask(favouritMovie
-                            , getApplicationContext(), Delete_Opeartion);
-                    st.execute();
+                    favoritsViewModel.delete(favouritMovie);
                     isFav = false;
                     favouriteButton.setText("add to fav");
                 } else {
                     // insert item
-                    SaveTask st = new SaveTask(favouritMovie, getApplicationContext(), ADD_Opeartion);
-                    st.execute();
-                    Toast.makeText(DetailsActivity.this, "added", Toast.LENGTH_SHORT).show();
+                    favoritsViewModel.insert(favouritMovie);
                     isFav = true;
                     favouriteButton.setText("Remove from  fav");
 
@@ -137,6 +145,9 @@ public class DetailsActivity extends AppCompatActivity {
         });
 
     }
+
+
+
 
 
     public void gettrailers() {
@@ -187,7 +198,7 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
-    class GetFav extends AsyncTask<Void, Void, FavouritMovie> {
+  /*  class GetFav extends AsyncTask<Void, Void, FavouritMovie> {
         Context context;
       int id;
 
@@ -256,8 +267,8 @@ public class DetailsActivity extends AppCompatActivity {
                 Toast.makeText(context, operationType, Toast.LENGTH_LONG).show();
 
             }
-        }
-    }
+        }*/
+}
 
 
 

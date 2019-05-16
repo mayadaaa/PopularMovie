@@ -15,7 +15,7 @@ import java.util.List;
 @Dao
 public interface DAO {
     @Query("SELECT * FROM FavMovies ORDER BY id")
-    List<FavouritMovie> loadAllMovies();
+    LiveData<List<FavouritMovie>> loadAllMovies();
 
     @Insert
     void insert(FavouritMovie favMovie);

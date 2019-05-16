@@ -14,6 +14,7 @@ import com.example.popularmovie.models.FavouritMovie;
 import com.example.popularmovie.models.Movie;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,12 +22,14 @@ import java.util.List;
 public class AdapterActivity extends RecyclerView.Adapter<AdapterActivity.MyViewHolder> {
     private List<Movie> mainModels;
     private Context context;
+   private List<FavouritMovie> favouritMovies;
 
 
 
     public AdapterActivity(List<Movie> mainModels, Context context) {
         this.mainModels = mainModels;
         this.context = context;
+     //   this.favoMovie=favoMovie;
     }
 
 
@@ -67,6 +70,13 @@ public class AdapterActivity extends RecyclerView.Adapter<AdapterActivity.MyView
         return mainModels.size();
 
     }
+    public void addMoviesList(List<FavouritMovie> favouritMovies) {
+
+       this.favouritMovies=favouritMovies;
+       notifyDataSetChanged();
+
+    }
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView imageView;
