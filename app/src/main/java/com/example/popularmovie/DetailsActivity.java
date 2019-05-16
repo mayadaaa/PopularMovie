@@ -40,30 +40,26 @@ import retrofit2.Response;
 
 public class DetailsActivity extends AppCompatActivity {
 
-  //  private static final String TAG = MovieDetails.class.getSimpleName();
 
-  //  public static final String ADD_Opeartion = "add";
-  //  public static final String Delete_Opeartion = "delete";
 
     private Movie movieItem;
 
     private List<Review> reviewList = new ArrayList<>();
     private List<Trailer> movieVideoList = new ArrayList<>();
     private List<Movie> Model;
-     //private Movie movie;
+
     private trailerAdapter adapter;
     private reviewAdapter rAdapter;
     private RecyclerView.LayoutManager mTrailerLayoutManager;
     private RecyclerView.LayoutManager reviewLayoutManager;
     private RecyclerView reviewRecycleView;
     private RecyclerView mTrailerRecyclerView;
-    //private APIinterface moviesAPI;
+    
     private int id;
     public Button favouriteButton;
     private appdatabase database;
     static Boolean isFav = false;
-   // private FavouritMovie favouritMovie;
-//THE NEW CODE
+
 
     private FavoritsViewModel favoritsViewModel;
 
@@ -99,15 +95,12 @@ public class DetailsActivity extends AppCompatActivity {
         gettrailers();
         getreviews();
 
-      //THE NEW CODE
-     // favoritsViewModel=ViewModelProviders.of(this).get(FavoritsViewModel.class);
+
 
         favoritsViewModel = ViewModelProviders.of(this).get(FavoritsViewModel.class);
 
 
        database = appdatabase.getInstance(this);
-      // DetailsActivity.GetFav gt = new DetailsActivity.GetFav(getApplicationContext(), movieItem.getId());
-       //gt.execute();
 
         favouriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,76 +191,7 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
-  /*  class GetFav extends AsyncTask<Void, Void, FavouritMovie> {
-        Context context;
-      int id;
 
-        GetFav(Context context, int id) {
-            this.context = context;
-            this.id = id;
-        }
-
-        @Override
-        protected FavouritMovie doInBackground(Void... voids) {
-            FavouritMovie taskList = DatabaseClient
-                    .getInstance(this.context)
-                    .getAppDatabase()
-                    .FavDAO().loadMovieById(this.id);
-            return taskList;
-        }
-
-        @Override
-        protected void onPostExecute(FavouritMovie FavouritMovie) {
-            super.onPostExecute(FavouritMovie);
-            if (FavouritMovie == null) {
-                DetailsActivity.isFav = false;
-                favouriteButton.setText("add to fav");
-            } else {
-                DetailsActivity.isFav = true;
-                favouriteButton.setText("Remove from fav");
-
-            }
-        }
-    }
-
-
-      static  class SaveTask extends AsyncTask<Void, Void, Void> {
-            FavouritMovie favouritMovie;
-            Context context;
-            String operationType;
-
-            SaveTask(FavouritMovie favouritMovie, Context context, String operationType) {
-                this.favouritMovie = favouritMovie;
-                this.context = context;
-                this.operationType = operationType;
-            }
-
-            @Override
-            protected Void doInBackground(Void... voids) {
-
-                if (operationType == DetailsActivity.ADD_Opeartion) {
-                    //adding to database
-                    DatabaseClient.getInstance(this.context).getAppDatabase()
-                            .FavDAO()
-                            .insert(this.favouritMovie);
-
-                } else {
-                    DatabaseClient.getInstance(this.context).getAppDatabase()
-                            .FavDAO()
-                            .delete(this.favouritMovie);
-
-                }
-
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                Toast.makeText(context, operationType, Toast.LENGTH_LONG).show();
-
-            }
-        }*/
 }
 
 

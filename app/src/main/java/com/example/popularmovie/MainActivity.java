@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     public List<Movie> TopRateList = new ArrayList<>();
     public List<FavouritMovie> favouritMovies = new ArrayList<>();
 
-    //private DatabaseClient database;
     private AdapterActivity adapter;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -49,8 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MenuItem menuItem;
 
-    //  private final String STORED_MOVIES = "stored_movies";
-//THE NEW CODE
+
     private FavoritsViewModel favoritsViewModel;
 
     @Override
@@ -60,19 +58,15 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         mLayoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(mLayoutManager);
-        //  database = new DatabaseClient(this);
 
-        //THE NEW CODE
 
         favoritsViewModel = ViewModelProviders.of(this).get(FavoritsViewModel.class);
-
 
 
         if (savedInstanceState != null) {
 
             Select = savedInstanceState.getInt(MENU_SELECTED);
-            // favMovie.clear();
-            //favMovie.addAll(savedInstanceState.<FavouritMovie>getParcelableArrayList(STORED_MOVIES));
+
 
         }
 
@@ -82,66 +76,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-  /* public void setData(List<FavouritMovie> favMovie ) {
-        this.favMovie = favMovie;
-        notifyDataSetChanged();
-    }*/
 
 
-   @Override
+
+    @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putInt(MENU_SELECTED, Select);
 
         super.onSaveInstanceState(savedInstanceState);
 
-        //outState.putParcelableArrayList(STORED_MOVIES, (ArrayList<? extends Parcelable>) favMovie);
-
 
     }
 
-     @Override
-      protected void onRestoreInstanceState(Bundle savedInstanceState) {
-          Select = savedInstanceState.getInt(MENU_SELECTED);
-      }
-
-/*
     @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (listState != null) {
-            mLayoutManager.onRestoreInstanceState(listState);
-        }
-    }*/
-/*
-
-  if (mSavedInstanceState != null && selected == mSavedInstanceState.getInt(BUNDLE_PREF)) {
-            if (selected == FAVORITES) {
-                mBinding.moviesList.clearOnScrollListeners();
-            } else {
-                mScrollListener.setState(
-                        mSavedInstanceState.getInt(BUNDLE_PAGE),
-                        mSavedInstanceState.getInt(BUNDLE_COUNT));
-                mBinding.moviesList.addOnScrollListener(mScrollListener);
-            }
-            mGridLayoutManager
-                    .onRestoreInstanceState(mSavedInstanceState.getParcelable(BUNDLE_RECYCLER));
-        } else {
-            if (selected == FAVORITES) {
-                mBinding.moviesList.clearOnScrollListeners();
-            } else {
-                mScrollListener.resetState();
-                mBinding.moviesList.addOnScrollListener(mScrollListener);
-            }
-        }
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        Select = savedInstanceState.getInt(MENU_SELECTED);
     }
-
-
-
- */
-
-
-
 
 
     @Override
@@ -202,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-
+        openCall();
 
         return super.onOptionsItemSelected(item);
     }
@@ -257,32 +207,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
- /*   @SuppressLint("StaticFieldLeak")
 
-    public void loadfav() {
-        recyclerView = findViewById(R.id.recyclerView);
-        mLayoutManager = new GridLayoutManager(this, 2);
-        recyclerView.setLayoutManager(mLayoutManager);
-
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-            //    favMovie = dao.loadAllMovies();
-                //Toast();
-                return null;
-            }
-
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                adapter.notifyDataSetChanged();
-            }
-
-        }.execute();
-
-
-    }*/
 }
 
 
