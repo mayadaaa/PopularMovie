@@ -73,10 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
         openCall();
 
-
     }
-
-
 
 
     @Override
@@ -130,17 +127,20 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.Pouplar) {
             Select = id;
             item.setChecked(true);
+
             recyclerView.setAdapter(new AdapterActivity(PopularList, MainActivity.this));
         }
         if (id == R.id.TopRate) {
 
             Select = id;
             item.setChecked(true);
+
             recyclerView.setAdapter(new AdapterActivity(TopRateList, MainActivity.this));
         }
         if (id == R.id.Favourits) {
             Select = id;
             item.setChecked(true);
+
             favoritsViewModel.loadAllMovies().observe(this, new Observer<List<FavouritMovie>>() {
                 @Override
                 public void onChanged(List<FavouritMovie> favouritMovies) {
@@ -152,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        openCall();
 
         return super.onOptionsItemSelected(item);
     }

@@ -54,7 +54,7 @@ public class DetailsActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager reviewLayoutManager;
     private RecyclerView reviewRecycleView;
     private RecyclerView mTrailerRecyclerView;
-    
+
     private int id;
     public Button favouriteButton;
     private appdatabase database;
