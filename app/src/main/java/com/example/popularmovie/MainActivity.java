@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
 
             Select = savedInstanceState.getInt(MENU_SELECTED);
-            //  favMovie.clear();
+            // favMovie.clear();
             //favMovie.addAll(savedInstanceState.<FavouritMovie>getParcelableArrayList(STORED_MOVIES));
 
         }
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
     }*/
 
 
-  /*  @Override
+   @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putInt(MENU_SELECTED, Select);
 
@@ -97,13 +97,13 @@ public class MainActivity extends AppCompatActivity {
         //outState.putParcelableArrayList(STORED_MOVIES, (ArrayList<? extends Parcelable>) favMovie);
 
 
-    }*/
+    }
 
-    /*  @Override
+     @Override
       protected void onRestoreInstanceState(Bundle savedInstanceState) {
           Select = savedInstanceState.getInt(MENU_SELECTED);
       }
-      */
+
 /*
     @Override
     protected void onResume() {
