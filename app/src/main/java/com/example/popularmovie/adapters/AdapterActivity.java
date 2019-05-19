@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
 import com.example.popularmovie.DetailsActivity;
-import com.example.popularmovie.MainActivity;
 import com.example.popularmovie.R;
 import com.example.popularmovie.models.FavouritMovie;
 import com.example.popularmovie.models.Movie;
