@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey;
     @Entity(tableName = "FavMovies")
     public class FavouritMovie implements Parcelable {
 
-        @PrimaryKey(autoGenerate = true)
+        @PrimaryKey
         private int id;
         private String title;
         private String releaseDate;
