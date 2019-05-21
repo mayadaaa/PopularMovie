@@ -22,14 +22,13 @@ import java.util.List;
 public class AdapterActivity extends RecyclerView.Adapter<AdapterActivity.MyViewHolder> {
     private List<Movie> mainModels;
     private Context context;
-  // private List<FavouritMovie> favouritMovies;
+    private List<FavouritMovie>favouritMovies;
 
 
 
     public AdapterActivity(List<Movie> mainModels, Context context) {
         this.mainModels = mainModels;
         this.context = context;
-     //   this.favoMovie=favoMovie;
     }
 
 
@@ -70,13 +69,10 @@ public class AdapterActivity extends RecyclerView.Adapter<AdapterActivity.MyView
         return mainModels.size();
 
     }
- /*   public void addMoviesList(List<FavouritMovie> favouritMovies) {
-
-       this.favouritMovies=favouritMovies;
-       notifyDataSetChanged();
-
+    public void setTasks(List<FavouritMovie> favouritMovies) {
+        this.favouritMovies = favouritMovies;
+        notifyDataSetChanged();
     }
-*/
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView imageView;

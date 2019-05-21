@@ -17,10 +17,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.popularmovie.R;
 import com.example.popularmovie.adapters.reviewAdapter;
 import com.example.popularmovie.adapters.trailerAdapter;
-import com.example.popularmovie.database.DatabaseClient;
+import com.example.popularmovie.database.appdatabase;
 import com.example.popularmovie.models.FavouritMovie;
 import com.example.popularmovie.models.Movie;
 import com.example.popularmovie.models.MovieDetails;
@@ -43,8 +42,7 @@ import retrofit2.Response;
 public class DetailsActivity extends AppCompatActivity {
 
     private static final String TAG = MovieDetails.class.getSimpleName();
-
-    public static final String ADD_Opeartion ="add";
+    public static final String ADD_Opeartion = "add";
     public static final String Delete_Opeartion = "delete";
 
     private Movie movieItem;
@@ -62,9 +60,10 @@ public class DetailsActivity extends AppCompatActivity {
     APIinterface moviesAPI;
     int id = 299534;
 
+
     public Button favouriteButton;
-    private DatabaseClient database;
     static Boolean isFav = false;
+    private appdatabase mDb;
 
 
     @SuppressLint("SetTextI18n")
@@ -90,18 +89,19 @@ public class DetailsActivity extends AppCompatActivity {
         id = getIntent().getExtras().getInt("id");
 
         movieItem = (Movie) getIntent().getSerializableExtra("Movie");
-        if (movieItem==null)
-            Log.e("bakro", "Nullll");
-        Picasso.with(DetailsActivity.this)
-                .load("http://image.tmdb.org/t/p/w185/" + getIntent().getExtras().getString("poster_path"))
-                .into(imageView);
+        if (movieItem == null)
+            // Log.e("bakro", "Nullll");
+            Picasso.with(DetailsActivity.this)
+                    .load("http://image.tmdb.org/t/p/w185/" + getIntent().getExtras().getString("poster_path"))
+                    .into(imageView);
+
+
+        mDb = appdatabase.getInstance(getApplicationContext());
 
         gettrailers();
         getreviews();
-        database =new DatabaseClient(this) ;
 
-//علشاان شاوف الفيلم ده محطوط في المفضله ولا لا
-        DetailsActivity.GetFav gt = new DetailsActivity.GetFav(getApplicationContext() ,movieItem.getId());
+        DetailsActivity.GetFav gt = new DetailsActivity.GetFav(getApplicationContext(), movieItem.getId());
         gt.execute();
 
         favouriteButton.setOnClickListener(new View.OnClickListener() {
@@ -124,16 +124,16 @@ public class DetailsActivity extends AppCompatActivity {
 
                     // delete item
                     SaveTask st = new SaveTask(favouritMovie
-                            ,getApplicationContext(),Delete_Opeartion);
+                            , getApplicationContext(), Delete_Opeartion);
                     st.execute();
-                    isFav=false;
+                    isFav = false;
                     favouriteButton.setText("add to fav");
                 } else {
                     // insert item
-                    SaveTask st = new SaveTask(favouritMovie,getApplicationContext(),ADD_Opeartion);
+                    SaveTask st = new SaveTask(favouritMovie, getApplicationContext(), ADD_Opeartion);
                     st.execute();
                     Toast.makeText(DetailsActivity.this, "added", Toast.LENGTH_SHORT).show();
-                    isFav=true;
+                    isFav = true;
                     favouriteButton.setText("Remove from  fav");
 
 
@@ -141,12 +141,9 @@ public class DetailsActivity extends AppCompatActivity {
             }
 
 
-
         });
 
     }
-
-
 
 
     public void gettrailers() {
@@ -197,36 +194,30 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
-    class GetFav extends AsyncTask<Void, Void,  FavouritMovie> {
+    class GetFav extends AsyncTask<Void, Void, FavouritMovie> {
 
         Context context;
-        int id ;
-        GetFav(Context context,int id )
-        {
-            this.context=context;
-            this.id=id;
+        int id;
+
+        GetFav(Context context, int id) {
+            this.context = context;
+            this.id = id;
         }
 
         @Override
-        protected  FavouritMovie doInBackground(Void... voids) {
-            FavouritMovie taskList = DatabaseClient
-                    .getInstance(this.context)
-                    .getAppDatabase()
-                    .FavDAO().loadMovieById(this.id);
+        protected FavouritMovie doInBackground(Void... voids) {
+            FavouritMovie taskList = mDb.FavDAO().loadMovieById(this.id);
             return taskList;
         }
 
         @Override
-        protected void onPostExecute(  FavouritMovie  FavouritMovie) {
-            super.onPostExecute( FavouritMovie);
-            if (FavouritMovie==null)
-            {
-                DetailsActivity.isFav=false;
+        protected void onPostExecute(FavouritMovie FavouritMovie) {
+            super.onPostExecute(FavouritMovie);
+            if (FavouritMovie == null) {
+                DetailsActivity.isFav = false;
                 favouriteButton.setText("add to fav");
-            }
-            else
-            {
-                DetailsActivity.isFav=true;
+            } else {
+                DetailsActivity.isFav = true;
                 favouriteButton.setText("Remove from fav");
 
             }
@@ -236,51 +227,44 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
 
+    class SaveTask extends AsyncTask<Void, Void, Void> {
+        FavouritMovie favouritMovie;
+        Context context;
+        String operationType;
 
-
-class SaveTask extends AsyncTask<Void, Void, Void> {
-    FavouritMovie favouritMovie ;
-    Context context;
-    String operationType ;
-    SaveTask(  FavouritMovie favouritMovie ,Context context ,String operationType) {
-        this.favouritMovie=favouritMovie;
-        this.context=context;
-        this.operationType=operationType;
-    }
-
-    @Override
-    protected Void doInBackground(Void... voids) {
-
-        if (operationType==DetailsActivity.ADD_Opeartion)
-        {
-            //adding to database
-            DatabaseClient.getInstance(this.context).getAppDatabase()
-                    .FavDAO()
-                    .insert(this.favouritMovie);
-
-        }
-        else
-        {
-            DatabaseClient.getInstance(this.context).getAppDatabase()
-                    .FavDAO()
-                    .delete(this.favouritMovie);
-
+        SaveTask(FavouritMovie favouritMovie, Context context, String operationType) {
+            this.favouritMovie = favouritMovie;
+            this.context = context;
+            this.operationType = operationType;
         }
 
-        return null;
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            if (operationType == DetailsActivity.ADD_Opeartion) {
+                //adding to database
+
+                mDb.FavDAO()
+                        .insert(this.favouritMovie);
+
+            } else {
+
+                mDb.FavDAO()
+                        .delete(this.favouritMovie);
+
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Toast.makeText(context, operationType, Toast.LENGTH_LONG).show();
+
+        }
+
+
     }
-
-    @Override
-    protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
-        Toast.makeText(context, operationType, Toast.LENGTH_LONG).show();
-
-    }
-
-
-
-
-
-}
 
 }
