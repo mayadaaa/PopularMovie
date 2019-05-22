@@ -1,6 +1,7 @@
 package com.example.popularmovie.models;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.Expose;
@@ -36,6 +37,12 @@ public class FavouritMovie implements Serializable {
     @SerializedName("backdrop_path")
     @Expose
     private String backdropPath;
+
+    @Ignore
+
+    public FavouritMovie(){
+
+    }
 
     public FavouritMovie(int id, String title, String releaseDate, Double voteAverage, Double popularity, String overview, String posterPath, String backdropPath) {
         this.id = id;

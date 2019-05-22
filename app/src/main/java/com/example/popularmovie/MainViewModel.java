@@ -15,6 +15,7 @@ import java.util.List;
 
 public class MainViewModel extends AndroidViewModel {
 
+
     private LiveData<List<FavouritMovie>> favS;
 
     public MainViewModel(@NonNull Application application) {
@@ -23,7 +24,7 @@ public class MainViewModel extends AndroidViewModel {
         favS=database.FavDAO().loadAllMovies();
 
     }
-    public LiveData<List<FavouritMovie>>getFavS(){
+ public LiveData<List<FavouritMovie>>getFavS(){
         return favS;
     }
 

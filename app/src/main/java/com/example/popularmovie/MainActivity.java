@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     APIinterface moviesAPI;
     List<FavouritMovie> PopularList = new ArrayList<>();
     List<FavouritMovie> TopRateList = new ArrayList<>();
-    List<FavouritMovie> Favourites = new ArrayList<>();
     RecyclerView recyclerView;
 
 
@@ -131,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(List<FavouritMovie> Favourites) {
                 Log.d(TAG, "retrieve data from LiveDtata in viewModel");
 
-                for (int i = 0; i < Favourites.size(); i++) {
+           /*     for (int i = 0; i < Favourites.size(); i++) {
                     FavouritMovie mov = new FavouritMovie(Favourites.get(i).getId(),
                             Favourites.get(i).getTitle(),
                             Favourites.get(i).getReleaseDate(),
@@ -143,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                     );
 
                     Favourites.add(mov);
-                }
+                }*/
                 adapter.setTasks(Favourites);
 
             }

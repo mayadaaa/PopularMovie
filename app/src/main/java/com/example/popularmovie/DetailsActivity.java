@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -48,7 +49,8 @@ public class DetailsActivity extends AppCompatActivity {
 
     private List<Review> reviewList = new ArrayList<>();
     private List<Trailer> movieVideoList = new ArrayList<>();
-    private List<FavouritMovie> favouritMovie  = new ArrayList<>();;
+    private List<FavouritMovie> favouritMovie = new ArrayList<>();
+    ;
     private FavouritMovie movie;
     private trailerAdapter adapter;
     private reviewAdapter rAdapter;
@@ -94,7 +96,7 @@ public class DetailsActivity extends AppCompatActivity {
                     .load("http://image.tmdb.org/t/p/w185/" + getIntent().getExtras().getString("poster_path"))
                     .into(imageView);
 
-
+        MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         mDb = appdatabase.getInstance(getApplicationContext());
 
         gettrailers();
@@ -243,13 +245,11 @@ public class DetailsActivity extends AppCompatActivity {
             if (operationType == DetailsActivity.ADD_Opeartion) {
                 //adding to database
 
-                mDb.FavDAO()
-                        .insert(this.favouritMovie);
+                mDb.FavDAO().insert(this.favouritMovie);
 
             } else {
 
-                mDb.FavDAO()
-                        .delete(this.favouritMovie);
+                mDb.FavDAO().delete(this.favouritMovie);
 
             }
 
