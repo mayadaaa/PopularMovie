@@ -1,8 +1,6 @@
 package com.example.popularmovie.database;
 
 
-import com.example.popularmovie.models.FavouritMovie;
-
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -10,6 +8,11 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
+
+//import com.example.popularmovie.models.FavouritMovie;
+
+
+import com.example.popularmovie.models.FavouritMovie;
 
 import java.util.List;
 @Dao

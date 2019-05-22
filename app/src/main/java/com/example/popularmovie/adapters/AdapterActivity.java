@@ -10,23 +10,23 @@ import android.widget.ImageView;
 
 import com.example.popularmovie.DetailsActivity;
 import com.example.popularmovie.R;
+//import com.example.popularmovie.models.FavouritMovie;
+//import com.example.popularmovie.models.Movie;
 import com.example.popularmovie.models.FavouritMovie;
-import com.example.popularmovie.models.Movie;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 
 public class AdapterActivity extends RecyclerView.Adapter<AdapterActivity.MyViewHolder> {
-    private List<Movie> mainModels;
+    private List<FavouritMovie> mainModels;
     private Context context;
-    private List<FavouritMovie>favouritMovies;
+  //  private List<FavouritMovie>favouritMovies;
 
 
 
-    public AdapterActivity(List<Movie> mainModels, Context context) {
+    public AdapterActivity(List<FavouritMovie> mainModels, Context context) {
         this.mainModels = mainModels;
         this.context = context;
     }
@@ -69,19 +69,19 @@ public class AdapterActivity extends RecyclerView.Adapter<AdapterActivity.MyView
         return mainModels.size();
 
     }
-    public void setTasks(List<FavouritMovie> favouritMovies) {
-        this.favouritMovies = favouritMovies;
+    public void setTasks(List<FavouritMovie> mainModels) {
+        this.mainModels = mainModels;
         notifyDataSetChanged();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView imageView;
         private Context context;
-        private List<Movie> Result;
+        private List<FavouritMovie> Result;
 
 
 
-        public MyViewHolder(View itemView, Context con, List<Movie> Models) {
+        public MyViewHolder(View itemView, Context con, List<FavouritMovie> Models) {
             super(itemView);
             this.context = con;
             this.Result = Models;
@@ -100,11 +100,9 @@ public class AdapterActivity extends RecyclerView.Adapter<AdapterActivity.MyView
             intent.putExtra("release_date", mainModels.get(position).getReleaseDate());
             intent.putExtra("vote_average", mainModels.get(position).getVoteAverage());
             intent.putExtra("poster_path", mainModels.get(position). getPosterPath());
-             context.startActivity(intent);
+            context.startActivity(intent);
 
         }
     }
 
 }
-
-

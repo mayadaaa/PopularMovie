@@ -22,7 +22,7 @@ public class MovieDetails {
 
     @SerializedName("results")
     @Expose
-    private List<Movie> results = null;
+    private List<FavouritMovie> results = null;
 
     public Integer getPage() {
         return page;
@@ -48,11 +48,11 @@ public class MovieDetails {
         this.totalPages = totalPages;
     }
 
-    public List<Movie> getResults() {
+    public List<FavouritMovie> getResults() {
         return results;
     }
 
-    public void setResults(List<Movie> results) {
+    public void setResults(List<FavouritMovie> results) {
         this.results = results;
     }
     @Override

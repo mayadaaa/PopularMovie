@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,8 +19,8 @@ import android.widget.Toast;
 import com.example.popularmovie.adapters.reviewAdapter;
 import com.example.popularmovie.adapters.trailerAdapter;
 import com.example.popularmovie.database.appdatabase;
+//import com.example.popularmovie.models.FavouritMovie;
 import com.example.popularmovie.models.FavouritMovie;
-import com.example.popularmovie.models.Movie;
 import com.example.popularmovie.models.MovieDetails;
 import com.example.popularmovie.models.Review;
 import com.example.popularmovie.models.Trailer;
@@ -45,12 +44,12 @@ public class DetailsActivity extends AppCompatActivity {
     public static final String ADD_Opeartion = "add";
     public static final String Delete_Opeartion = "delete";
 
-    private Movie movieItem;
+    private FavouritMovie movieItem;
 
     private List<Review> reviewList = new ArrayList<>();
     private List<Trailer> movieVideoList = new ArrayList<>();
-    private List<Movie> Model;
-    private Movie movie;
+    private List<FavouritMovie> favouritMovie  = new ArrayList<>();;
+    private FavouritMovie movie;
     private trailerAdapter adapter;
     private reviewAdapter rAdapter;
     private RecyclerView.LayoutManager mTrailerLayoutManager;
@@ -88,7 +87,7 @@ public class DetailsActivity extends AppCompatActivity {
         rate.setText(String.valueOf(getIntent().getExtras().getDouble("vote_average")) + "/10");
         id = getIntent().getExtras().getInt("id");
 
-        movieItem = (Movie) getIntent().getSerializableExtra("Movie");
+        movieItem = (FavouritMovie) getIntent().getSerializableExtra("Movie");
         if (movieItem == null)
             // Log.e("bakro", "Nullll");
             Picasso.with(DetailsActivity.this)

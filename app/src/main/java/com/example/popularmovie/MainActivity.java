@@ -1,6 +1,5 @@
 package com.example.popularmovie;
 
-
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,8 +16,9 @@ import android.widget.Toast;
 
 import com.example.popularmovie.adapters.AdapterActivity;
 import com.example.popularmovie.database.appdatabase;
+//import com.example.popularmovie.models.FavouritMovie;
 import com.example.popularmovie.models.FavouritMovie;
-import com.example.popularmovie.models.Movie;
+
 import com.example.popularmovie.models.MovieDetails;
 import com.example.popularmovie.network.APIinterface;
 
@@ -36,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     APIinterface moviesAPI;
-    List<Movie> PopularList = new ArrayList<>();
-    List<Movie> TopRateList = new ArrayList<>();
+    List<FavouritMovie> PopularList = new ArrayList<>();
+    List<FavouritMovie> TopRateList = new ArrayList<>();
     List<FavouritMovie> Favourites = new ArrayList<>();
     RecyclerView recyclerView;
 
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     //for save instance state
     private final static String MENU_SELECTED = "selected";
     int Select;
-   private MenuItem menuItem;
+    private MenuItem menuItem;
 
 
     @Override
@@ -203,6 +203,3 @@ public class MainActivity extends AppCompatActivity {
 
 
 }
-
-
-
